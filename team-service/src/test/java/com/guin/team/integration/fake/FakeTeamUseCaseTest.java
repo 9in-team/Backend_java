@@ -4,6 +4,8 @@ import com.guin.team.adapter.out.persistence.TeamPersistenceAdapter;
 import com.guin.team.adapter.out.persistence.entity.TeamEntity;
 import com.guin.team.adapter.out.persistence.mapper.HashTagMapper;
 import com.guin.team.adapter.out.persistence.mapper.TeamMapper;
+import com.guin.team.adapter.out.persistence.mapper.TeamRoleMapper;
+import com.guin.team.adapter.out.persistence.mapper.TeamTemplateMapper;
 import com.guin.team.adapter.out.persistence.repository.TeamRepository;
 import com.guin.team.application.port.in.TeamUseCase;
 import com.guin.team.application.port.in.command.TeamCommand;
@@ -11,6 +13,7 @@ import com.guin.team.application.service.TeamService;
 import com.guin.team.domain.vo.Team;
 import com.guin.team.fixture.command.TeamCommandFixture;
 import com.guin.team.integration.fake.repository.FakeTeamRepository;
+import com.guin.team.fixture.mapper.TeamTestMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +31,9 @@ public class FakeTeamUseCaseTest {
                 new TeamPersistenceAdapter(
                         this.teamRepository,
                         new TeamMapper(),
-                        new HashTagMapper()
+                        new HashTagMapper(),
+                        new TeamRoleMapper(),
+                        new TeamTemplateMapper()
                 )
         );
 
@@ -48,7 +53,9 @@ public class FakeTeamUseCaseTest {
                 teamEntity.getContent(),
                 teamEntity.getSubjectType(),
                 teamEntity.getOpenChatUrl(),
-                actual.hashTag()
+                actual.hashTag(),
+                TeamTestMapper.toTeamRoles(teamEntity.getTeamRoles()),
+                TeamTestMapper.toTeamTemplate(teamEntity.getTeamTemplates())
         ));
     }
 
